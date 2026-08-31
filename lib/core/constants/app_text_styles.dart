@@ -50,4 +50,18 @@ class AppTextStyles {
     color: AppColors.whiteColor,
     fontFamily: 'Poppins',
   );
+
+  static const TextStyle buttonText = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.whiteColor,
+    fontFamily: 'Poppins',
+  );
+
+  static const TextStyle linkText = TextStyle(
+    fontSize: 14,
+    color: AppColors.grayColor2,
+    decoration: TextDecoration.underline,
+    fontFamily: 'Poppins',
+  );
 }

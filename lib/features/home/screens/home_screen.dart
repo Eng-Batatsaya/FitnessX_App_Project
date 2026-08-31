@@ -29,6 +29,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
+
     // Mock user data for calculation
     const double userHeight = 180.0; // cm
     const double userWeight = 65.0; // kg
@@ -39,11 +40,14 @@ class HomeView extends StatelessWidget {
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
 
             if (state is HomeLoaded) {
               final data = state.data;
+
               return RefreshIndicator(
                 onRefresh: () => context.read<HomeCubit>().refreshData(),
                 child: SingleChildScrollView(
@@ -61,19 +65,25 @@ class HomeView extends StatelessWidget {
                       const SizedBox(height: 30),
                       TodayTargetCard(
                         data: data,
-                        onCheck: () => context.read<HomeCubit>().checkTodayTarget(),
+                        onCheck: () => context
+                            .read<HomeCubit>()
+                            .checkTodayTarget(),
                       ),
                       const SizedBox(height: 30),
                       ActivityStatusSection(
                         data: data,
-                        onAddWater: (amount) => context.read<HomeCubit>().addWater(amount),
-                        onHeartRateUpdate: () => context.read<HomeCubit>().updateHeartRate(),
+                        onAddWater: (amount) => context
+                            .read<HomeCubit>()
+                            .addWater(amount),
+                        onHeartRateUpdate: () => context
+                            .read<HomeCubit>()
+                            .updateHeartRate(),
                       ),
                       const SizedBox(height: 30),
                       const WorkoutProgressCard(),
                       const SizedBox(height: 30),
                       const LatestWorkoutList(),
-                      const SizedBox(height: 100), // Space for bottom nav
+                      const SizedBox(height: 100),
                     ],
                   ),
                 ),
@@ -84,8 +94,11 @@ class HomeView extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 0),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: const CustomBottomNavBar(
+        selectedIndex: 0,
+      ),
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.centerDocked,
     );
   }
 }
