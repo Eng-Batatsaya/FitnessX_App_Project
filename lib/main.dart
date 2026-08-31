@@ -1,8 +1,18 @@
-import 'package:fitness_app/features/auth/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/auth/screens/welcome_screen.dart';
+import 'core/controllers/theme_cubit.dart';
+import 'core/controllers/theme_state.dart';
+import 'core/theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,14 +20,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Fitness App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF92A3FD)),
-        useMaterial3: true,
-      ),
-      home: const WelcomeScreen(),
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          title: 'FitnessX',
+          debugShowCheckedModeBanner: false,
+          themeMode: state.themeMode,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          home: const WelcomeScreen(),
+        );
+      },
     );
   }
 }
