@@ -7,15 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  final String oobCode;
+
+  const ResetPasswordScreen({
+    super.key,
+    required this.oobCode,
+  });
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  State<ResetPasswordScreen> createState() =>
+      _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController =
+  TextEditingController();
+
+  final TextEditingController _confirmPasswordController =
+  TextEditingController();
 
   @override
   void dispose() {
@@ -27,7 +36,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ResetPasswordCubit(),
+      create: (context) => ResetPasswordCubit(
+        oobCode: widget.oobCode,
+      ),
       child: Scaffold(
         backgroundColor: AppColors.background,
         resizeToAvoidBottomInset: false,
@@ -37,7 +48,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               if (state.status == ResetPasswordStatus.success) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Password reset successfully!'),
+                    content: const Text(
+                      'Password reset successfully!',
+                    ),
                     backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(
@@ -45,15 +58,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 );
-                // Navigate to success screen
+
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const ResetSuccessScreen()),
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    const ResetSuccessScreen(),
+                  ),
                 );
-              } else if (state.status == ResetPasswordStatus.failure) {
+              } else if (state.status ==
+                  ResetPasswordStatus.failure) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(state.errorMessage ?? 'An error occurred'),
+                    content: Text(
+                      state.errorMessage ??
+                          'An error occurred',
+                    ),
                     backgroundColor: Colors.redAccent,
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(
@@ -68,11 +88,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(30, 60, 30, 0),
+                      padding: const EdgeInsets.fromLTRB(
+                        30,
+                        60,
+                        30,
+                        0,
+                      ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 20),
+
                           // Title
                           const Text(
                             'Reset your\npassword here',
@@ -83,40 +110,63 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               height: 1.2,
                             ),
                           ),
+
                           const SizedBox(height: 15),
 
                           // Subtitle
                           Text(
-                            'Select which contact details should\nwe use to reset your password',
+                            'Enter your new password below',
                             style: TextStyle(
                               color: Colors.white.withAlpha(200),
                               fontSize: 15,
                               height: 1.5,
                             ),
                           ),
+
                           const SizedBox(height: 60),
 
-                          // Input Fields
+                          // New Password
                           _buildTextField(
-                            controller: _newPasswordController,
+                            controller:
+                            _newPasswordController,
                             hintText: 'New Password',
-                            obscureText: !state.isNewPasswordVisible,
-                            onToggleVisibility: () =>
-                                context.read<ResetPasswordCubit>().toggleNewPasswordVisibility(),
-                            onChanged: (value) =>
-                                context.read<ResetPasswordCubit>().onNewPasswordChanged(value),
-                            isVisible: state.isNewPasswordVisible,
+                            obscureText:
+                            !state.isNewPasswordVisible,
+                            onToggleVisibility: () {
+                              context
+                                  .read<ResetPasswordCubit>()
+                                  .toggleNewPasswordVisibility();
+                            },
+                            onChanged: (value) {
+                              context
+                                  .read<ResetPasswordCubit>()
+                                  .onNewPasswordChanged(value);
+                            },
+                            isVisible:
+                            state.isNewPasswordVisible,
                           ),
+
                           const SizedBox(height: 20),
+
+                          // Confirm Password
                           _buildTextField(
-                            controller: _confirmPasswordController,
+                            controller:
+                            _confirmPasswordController,
                             hintText: 'Confirm Password',
-                            obscureText: !state.isConfirmPasswordVisible,
-                            onToggleVisibility: () =>
-                                context.read<ResetPasswordCubit>().toggleConfirmPasswordVisibility(),
-                            onChanged: (value) =>
-                                context.read<ResetPasswordCubit>().onConfirmPasswordChanged(value),
-                            isVisible: state.isConfirmPasswordVisible,
+                            obscureText:
+                            !state.isConfirmPasswordVisible,
+                            onToggleVisibility: () {
+                              context
+                                  .read<ResetPasswordCubit>()
+                                  .toggleConfirmPasswordVisibility();
+                            },
+                            onChanged: (value) {
+                              context
+                                  .read<ResetPasswordCubit>()
+                                  .onConfirmPasswordChanged(value);
+                            },
+                            isVisible:
+                            state.isConfirmPasswordVisible,
                           ),
                         ],
                       ),
@@ -125,12 +175,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                   // Next Button
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 20, 40, 60),
+                    padding: const EdgeInsets.fromLTRB(
+                      40,
+                      20,
+                      40,
+                      60,
+                    ),
                     child: GradientButton(
                       text: 'Next',
-                      isLoading: state.status == ResetPasswordStatus.loading,
+                      isLoading:
+                      state.status ==
+                          ResetPasswordStatus.loading,
                       onPressed: () {
-                        context.read<ResetPasswordCubit>().resetPassword();
+                        context
+                            .read<ResetPasswordCubit>()
+                            .resetPassword();
                       },
                     ),
                   ),
@@ -154,24 +213,36 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Container(
       height: 75,
       decoration: BoxDecoration(
-        color: const Color(0xFF1D1B20), // Darker gray for fields
+        color: const Color(0xFF1D1B20),
         borderRadius: BorderRadius.circular(20),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 25,
+      ),
       alignment: Alignment.center,
       child: TextField(
         controller: controller,
         obscureText: obscureText,
         onChanged: onChanged,
-        style: const TextStyle(color: Colors.white, fontSize: 18),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+        ),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Color(0xFF49454F), fontSize: 18),
+          hintStyle: const TextStyle(
+            color: Color(0xFF49454F),
+            fontSize: 18,
+          ),
           border: InputBorder.none,
           suffixIcon: IconButton(
             icon: Icon(
-              isVisible ? Icons.visibility : Icons.visibility_off,
-              color: isVisible ? const Color(0xFF4CAF50) : const Color(0xFF49454F), // Green eye if visible
+              isVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+              color: isVisible
+                  ? const Color(0xFF4CAF50)
+                  : const Color(0xFF49454F),
               size: 28,
             ),
             onPressed: onToggleVisibility,

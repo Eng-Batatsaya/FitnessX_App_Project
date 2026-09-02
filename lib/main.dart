@@ -1,4 +1,7 @@
-// lib/main.dart
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,7 +10,12 @@ import 'core/controllers/theme_cubit.dart';
 import 'core/controllers/theme_state.dart';
 import 'core/theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
     BlocProvider(
       create: (context) => ThemeCubit(),

@@ -12,7 +12,7 @@ class ForgotPasswordState extends Equatable {
   final String? errorMessage;
 
   const ForgotPasswordState({
-    this.selectedMethod = ForgotPasswordMethod.sms,
+    this.selectedMethod = ForgotPasswordMethod.email,
     this.email = '',
     this.phoneNumber = '',
     this.status = ForgotPasswordStatus.initial,
@@ -36,5 +36,11 @@ class ForgotPasswordState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [selectedMethod, email, phoneNumber, status, errorMessage];
+  List<Object?> get props => [
+    selectedMethod,
+    email,
+    phoneNumber,
+    status,
+    errorMessage,
+  ];
 }
