@@ -4,6 +4,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/models/dashboard_data.dart';
 import '../screens/activity_tracker_screen.dart';
+import '../../wellness/screens/sleep_schedule_screen.dart';
 
 class ActivityStatusSection extends StatelessWidget {
   final DashboardData data;
@@ -259,7 +260,7 @@ class ActivityStatusSection extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ActivityTrackerScreen(data: data),
+                          builder: (context) => const SleepScheduleScreen(),
                         ),
                       );
                     },
